@@ -29,14 +29,19 @@ what platform operator is also verifying.
 StackMon is not trying to reimplement the wheel, but intsead combine existing
 and time proven tools using sometimes non standart ways of doing usual things.
 
-- [Cloudmon](/cloudmon) - whole stack is very complex to oversee, so a single
+- [Cloudmon](/docs/cloudmon) - whole stack is very complex to oversee, so a single
   CLI for dealing with various components is being developed
 
-- [ApiMon](/apimon) - Scheduler and executor for tests
+- [ApiMon](/docs/apimon) - Scheduler and executor for tests
 
-- EpMon - Endpoint monitoring (dummy GET requests to specific endpoints
+- [EpMon](/docs/epmon) - Endpoint monitoring (dummy GET requests to specific endpoints
   expecting to get back something like a 200 status code)
 
-- [Status Dashboard](/status-dashboard) - no service provider is able to avoid
+- [Status Dashboard](/docs/status-dashboard) - no service provider is able to avoid
   necessity of having status dashboard. A tiny open status dashboard is created
   with customizability in mind.
+
+
+## Principles
+
+Everything opensource.
