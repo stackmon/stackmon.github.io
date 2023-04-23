@@ -26,8 +26,93 @@ what platform operator is also verifying.
 
 ## Components
 
-StackMon is not trying to reimplement the wheel, but intsead combine existing
-and time proven tools using sometimes non standart ways of doing usual things.
+StackMon is not trying to reimplement the wheel, but instead combines existing
+and time proven tools using sometimes non standard ways of doing usual things.
+
+
+```mermaid
+flowchart LR
+
+Z[Zulip]
+A[Alerta]
+StatsD[StatsD]
+Swift[OpenStack Swift]
+G[GraphiteDB]
+M[Metric Processor]
+D[Grafana Dashboard]
+DB1[(SQL Database)]
+DB2[(SQL Database)]
+SD[Status Dashboard]
+GIT[GiT Repository]
+YAML[Config Yaml]
+
+subgraph ApiMon
+    SCH[Scheduler]
+    EX[Executor\n X,Y,..]
+    subgraph Ansible
+        style Ansible stroke:#333,stroke-width:3px;
+        P[Playbook]
+        SDK[Openstack SDK]
+    end
+end
+
+subgraph EpMon
+    E[Endpoint Monitor]
+
+end
+
+subgraph CloudMon
+    C[CloudMon\n plugin X,Y,..]
+end
+subgraph Backend
+    StatsD
+    G
+    M
+    DB1
+    DB2
+    Swift
+end
+subgraph Input
+    YAML
+    GIT
+end
+
+subgraph Alerts
+    A
+    Z
+end
+
+subgraph Dashboards
+    D
+    SD
+end
+
+YAML --> EpMon
+YAML --> CloudMon
+GIT --> CloudMon
+GIT --> ApiMon
+P --> SDK
+A --> Z
+StatsD --> G
+E --> A
+E --> StatsD
+SCH --> A
+SCH --> EX
+EX --> A
+C --> SDK
+G --> D
+G --> M
+M --> SD
+EX --> DB1
+DB2 --> SD
+DB1 --> D
+EX --> Swift
+Ansible --> StatsD
+
+EX --> P
+```
+
+
 
 - [Cloudmon](/docs/cloudmon) - whole stack is very complex to oversee, so a single
   CLI for dealing with various components is being developed
