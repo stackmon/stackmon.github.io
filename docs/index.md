@@ -26,8 +26,77 @@ what platform operator is also verifying.
 
 ## Components
 
-StackMon is not trying to reimplement the wheel, but intsead combine existing
-and time proven tools using sometimes non standart ways of doing usual things.
+StackMon is not trying to reimplement the wheel, but instead combines existing
+and time proven tools using sometimes non standard ways of doing usual things.
+
+
+```mermaid
+flowchart LR
+
+Z[Zulip]
+A[Alerta]
+StatsD[StatsD]
+Swift[OpenStack Swift]
+Graphite[GraphiteDB]
+M[Metric Processor]
+Grafana[Grafana Dashboard]
+DB1[(SQL Database)]
+DB2[(SQL Database)]
+DB3[(SQL Database)]
+SD[Status Dashboard]
+
+
+subgraph CloudMon plugin ApiMon
+    SCH[Scheduler]
+    EX[Executor\n X,Y,..]
+    subgraph Ansible
+        style Ansible stroke:#333,stroke-width:3px;
+        P[Playbook]
+        SDK[Openstack SDK]
+    end
+end
+
+subgraph CloudMon plugin EpMon
+    E[Endpoint Monitor]
+
+end
+
+C[CloudMon\n plugin X,Y,..]
+
+subgraph Backend
+    A
+    Z
+    StatsD
+    Graphite
+    M
+    DB1
+    Swift
+end
+
+subgraph Representation layer
+        Grafana
+        DB2
+        SD
+        DB3
+end
+
+P --> |Ansible Module| SDK
+A --> Z
+StatsD --> Graphite
+SCH --> EX
+Graphite --> M
+M --> SD
+EX --> |stats| DB1
+EX --> |Logs| Swift
+EX --> P
+C & SDK & E --> |metrics| StatsD
+E & SCH & EX --> A
+DB1 & Graphite  --> Grafana
+Grafana x--x DB2
+SD x--x DB3
+```
+
+
 
 - [Cloudmon](/docs/cloudmon) - whole stack is very complex to oversee, so a single
   CLI for dealing with various components is being developed
