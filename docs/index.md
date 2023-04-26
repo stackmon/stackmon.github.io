@@ -37,16 +37,16 @@ Z[Zulip]
 A[Alerta]
 StatsD[StatsD]
 Swift[OpenStack Swift]
-G[GraphiteDB]
+Graphite[GraphiteDB]
 M[Metric Processor]
-D[Grafana Dashboard]
+Grafana[Grafana Dashboard]
 DB1[(SQL Database)]
 DB2[(SQL Database)]
+DB3[(SQL Database)]
 SD[Status Dashboard]
-GIT[GiT Repository]
-YAML[Config Yaml]
 
-subgraph ApiMon
+
+subgraph CloudMon plugin ApiMon
     SCH[Scheduler]
     EX[Executor\n X,Y,..]
     subgraph Ansible
@@ -56,60 +56,44 @@ subgraph ApiMon
     end
 end
 
-subgraph EpMon
+subgraph CloudMon plugin EpMon
     E[Endpoint Monitor]
 
 end
 
-subgraph CloudMon
-    C[CloudMon\n plugin X,Y,..]
-end
-subgraph Backend
-    StatsD
-    G
-    M
-    DB1
-    DB2
-    Swift
-end
-subgraph Input
-    YAML
-    GIT
-end
+C[CloudMon\n plugin X,Y,..]
 
-subgraph Alerts
+subgraph Backend
     A
     Z
+    StatsD
+    Graphite
+    M
+    DB1
+    Swift
 end
 
-subgraph Dashboards
-    D
-    SD
+subgraph Representation layer
+        Grafana
+        DB2
+        SD
+        DB3
 end
 
-YAML --> EpMon
-YAML --> CloudMon
-GIT --> CloudMon
-GIT --> ApiMon
-P --> SDK
+P --> |Ansible Module| SDK
 A --> Z
-StatsD --> G
-E --> A
-E --> StatsD
-SCH --> A
+StatsD --> Graphite
 SCH --> EX
-EX --> A
-C --> SDK
-G --> D
-G --> M
+Graphite --> M
 M --> SD
-EX --> DB1
-DB2 --> SD
-DB1 --> D
-EX --> Swift
-Ansible --> StatsD
-
+EX --> |stats| DB1
+EX --> |Logs| Swift
 EX --> P
+C & SDK & E --> |metrics| StatsD
+E & SCH & EX --> A
+DB1 & Graphite  --> Grafana
+Grafana x--x DB2
+SD x--x DB3
 ```
 
 
