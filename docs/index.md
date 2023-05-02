@@ -29,7 +29,7 @@ what platform operator is also verifying.
 StackMon is not trying to reimplement the wheel, but instead combines existing
 and time proven tools using sometimes non standard ways of doing usual things.
 
-![Solution diagram](_static/solution-diagram.svg)
+![Solution diagram](assets/images/solution-diagram.svg)
 
 
 
